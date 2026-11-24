@@ -27,10 +27,6 @@ class Tour:
 
 class GestorTours:
     def __init__(self):
-        self.tours = []
-        self.cargar_datos()
-
-    def cargar_datos(self):
         self.tours = [
             Tour(1, "Centro histórico", 15.00, 20),
             Tour(2, "El Cajas", 35.00, 12),
