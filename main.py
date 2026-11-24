@@ -7,7 +7,7 @@ def main():
     modelo = GestorTours()
     vista = VistaTours()
     controlador = ControladorTours(modelo, vista)
-
+    controlador.ejecutar()
 
 
 if __name__ == "__main__":
