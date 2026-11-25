@@ -5,21 +5,12 @@ class VistaTours:
         print("2. Mostrar tours")
         print("3. Reservar cupos")
         print("4. Salir")
-        return input("Seleccione una opción: ")
+        return input("Seleccione una opción: ").strip()
 
-    def pedir_datos_tour(self):
-        nombre = input("Nombre del tour: ")
-        precio = input("Precio: ")
-        cupos = input("Cupos: ")
-        return nombre, precio, cupos
+    def pedir(self, mensaje):
+        return input(mensaje)
 
-    def pedir_codigo(self):
-        return input("Código del tour: ")
-
-    def pedir_cantidad(self):
-        return input("Cantidad de cupos a reservar: ")
-
-    def mostrar_tours(self, tours):
+    def mostrar_tabla(self, tours):
         print(f"\n{'Código':<8} {'Nombre':<20} {'Precio':>8} {'Cupos':>8}")
         print("-" * 47)
         for t in tours:

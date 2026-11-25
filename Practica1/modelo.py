@@ -7,12 +7,13 @@ class Tour:
         self.validar()
 
     def validar(self):
-        if not self.nombre or not self.nombre.strip():
+        self.nombre = self.nombre.strip()
+        if self.nombre == "":
             raise ValueError("Error: el nombre del tour no puede estar vacío.")
         if self.precio <= 0:
             raise ValueError("Error: el precio debe ser mayor que 0.")
-        if self.cupos <= 0:
-            raise ValueError("Error: los cupos deben ser mayores que 0.")
+        if self.cupos < 0:
+            raise ValueError("Error: los cupos deben ser mayores o iguales a 0.")
 
     def reservar(self, cantidad):
         if cantidad <= 0:
@@ -27,46 +28,30 @@ class Tour:
 
 class GestorTours:
     def __init__(self):
-        self.tours = [
-            Tour(1, "Centro histórico", 15.00, 20),
-            Tour(2, "El Cajas", 35.00, 12),
-        ]
+        self.tours = []
+        self.siguiente_codigo = 1
+        self.cargar_datos()
 
-    def obtener_todos(self):
-        return self.tours
+    def cargar_datos(self):
+        self.registrar("Centro histórico", 15.00, 20)
+        self.registrar("El Cajas", 35.00, 12)
 
     def registrar(self, nombre, precio, cupos):
-        try:
-            precio = float(precio)
-            cupos = int(cupos)
-        except ValueError:
-            raise ValueError("Error: precio y cupos deben ser valores numéricos.")
-
-        codigo = len(self.tours) + 1
-        nuevo_tour = Tour(codigo, nombre, precio, cupos)
+        nuevo_tour = Tour(self.siguiente_codigo, nombre, precio, cupos)
         self.tours.append(nuevo_tour)
+        self.siguiente_codigo += 1
         return nuevo_tour
 
     def buscar(self, codigo):
-        try:
-            codigo = int(codigo)
-        except ValueError:
-            raise ValueError("Error: el código debe ser un número entero.")
-
         for t in self.tours:
             if t.codigo == codigo:
                 return t
-        return None
+        raise ValueError("Error: no existe ese código.")
 
     def reservar_cupos(self, codigo, cantidad):
         tour = self.buscar(codigo)
-        if tour is None:
-            raise ValueError("Error: no existe ese código.")
-
-        try:
-            cantidad = int(cantidad)
-        except ValueError:
-            raise ValueError("Error: la cantidad debe ser un número entero.")
-
         tour.reservar(cantidad)
         return tour
+
+    def obtener_todos(self):
+        return self.tours
